@@ -1,0 +1,415 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0b0d10;
+    color: #ffffff;
+}
+
+header {
+    height: 70px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #25282d;
+    background: #0d1014;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.tagline {
+    color: #8f969f;
+    font-size: 14px;
+}
+
+main {
+    width: 88%;
+    max-width: 1250px;
+    margin: auto;
+}
+
+.dashboard {
+    padding: 65px 0 45px;
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.small-title {
+    color: #7f8791;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 52px;
+    line-height: 1.05;
+    margin: 0;
+}
+
+h1 span {
+    color: #65e572;
+}
+
+.description {
+    color: #9da4ad;
+    max-width: 620px;
+    line-height: 1.6;
+    margin-top: 25px;
+}
+
+.stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.stat-card {
+    border: 1px solid #292d32;
+    background: #111419;
+    border-radius: 14px;
+    padding: 20px;
+    min-width: 120px;
+}
+
+.stat-card strong {
+    font-size: 28px;
+}
+
+.stat-card p {
+    color: #8f969f;
+    font-size: 13px;
+}
+
+.section {
+    padding: 35px 0;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.live-badge {
+    color: #65e572;
+    border: 1px solid #275b2d;
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.assessment-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 0.8fr;
+    gap: 20px;
+}
+
+.camera-card,
+.result-card,
+.test-card,
+.management-card,
+.ground-card {
+    background: #111419;
+    border: 1px solid #292d32;
+    border-radius: 16px;
+}
+
+.camera-card {
+    overflow: hidden;
+}
+
+.camera-header {
+    height: 52px;
+    padding: 0 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #292d32;
+    color: #dce0e4;
+    font-size: 14px;
+}
+
+#connectionStatus {
+    color: #65e572;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.camera-box {
+    position: relative;
+    width: 100%;
+    background: #000;
+    min-height: 450px;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.camera-message {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0,0,0,0.7);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.camera-controls {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+}
+
+button {
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 17px;
+    background: #65e572;
+    color: #061007;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+button.secondary {
+    background: #24282e;
+    color: white;
+}
+
+.result-card {
+    padding: 25px;
+}
+
+.rep-display {
+    margin-top: 20px;
+}
+
+.rep-display span {
+    display: block;
+    font-size: 90px;
+    font-weight: 800;
+    line-height: 0.9;
+}
+
+.rep-display small {
+    color: #858c95;
+    letter-spacing: 2px;
+}
+
+.position {
+    margin-top: 25px;
+    color: #9299a2;
+}
+
+.position strong {
+    color: #65e572;
+    margin-left: 5px;
+}
+
+.feedback-box {
+    margin-top: 25px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #181c21;
+}
+
+.feedback-box p {
+    font-size: 11px;
+    color: #7f8791;
+    letter-spacing: 1px;
+}
+
+#feedback {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.metrics {
+    margin-top: 20px;
+}
+
+.metrics div {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #25292e;
+}
+
+.metrics span {
+    color: #7f8791;
+}
+
+.metrics strong {
+    color: #e7eaed;
+}
+
+.test-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.test-card {
+    padding: 22px;
+    position: relative;
+}
+
+.test-card.active {
+    border-color: #65e572;
+}
+
+.icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.test-card h3,
+.management-card h3,
+.ground-card h3 {
+    margin: 0 0 8px;
+}
+
+.test-card p,
+.management-card p,
+.ground-card p {
+    color: #858c95;
+    font-size: 13px;
+}
+
+.test-card span {
+    display: inline-block;
+    margin-top: 12px;
+    color: #65e572;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.management-grid,
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.management-card {
+    padding: 22px;
+}
+
+.management-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.equipment-icon,
+.ground-icon {
+    font-size: 30px;
+}
+
+.available {
+    color: #65e572;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.management-card button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.booking-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+.ground-card {
+    padding: 22px;
+}
+
+.slots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.slots button {
+    background: #20252b;
+    color: white;
+}
+
+.slots button.booked {
+    background: #371e21;
+    color: #ff8b8b;
+    cursor: not-allowed;
+}
+
+footer {
+    margin-top: 60px;
+    border-top: 1px solid #25282d;
+    padding: 25px 6%;
+    display: flex;
+    justify-content: space-between;
+    color: #737a83;
+}
+
+@media(max-width: 850px) {
+
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .stats {
+        flex-wrap: wrap;
+    }
+
+    .assessment-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .test-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .management-grid,
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 38px;
+    }
+}

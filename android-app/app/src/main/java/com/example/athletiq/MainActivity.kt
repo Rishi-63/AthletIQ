@@ -20,7 +20,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.SelectableDates
+import java.util.Calendar
+import java.util.TimeZone
+import androidx.compose.material3.IconButton
 
 private val Navy = Color(0xFF0B1120)
 private val CardNavy = Color(0xFF151D2D)
@@ -918,6 +926,36 @@ fun GroundBookingScreen(
     var bookingDate by remember {
         mutableStateOf("")
     }
+    var showDatePicker by remember {
+        mutableStateOf(false)
+    }
+
+    val datePickerState = rememberDatePickerState(
+        selectableDates = object : SelectableDates {
+            override fun isSelectableDate(
+                utcTimeMillis: Long
+            ): Boolean {
+                val selected = Calendar.getInstance(
+                    TimeZone.getTimeZone("UTC")
+                ).apply {
+                    timeInMillis = utcTimeMillis
+                }
+
+                val today = Calendar.getInstance(
+                    TimeZone.getTimeZone("UTC")
+                )
+
+                return selected.get(Calendar.YEAR) > today.get(Calendar.YEAR) ||
+                        (selected.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                                selected.get(Calendar.DAY_OF_YEAR) >= today.get(Calendar.DAY_OF_YEAR))
+            }
+
+            override fun isSelectableYear(year: Int): Boolean {
+                val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                return year >= currentYear
+            }
+        }
+    )
 
     var selectedTime by remember {
         mutableStateOf("9:00 AM - 10:00 AM")
@@ -1023,14 +1061,22 @@ fun GroundBookingScreen(
 
             OutlinedTextField(
                 value = bookingDate,
-                onValueChange = {
-                    bookingDate = it
-                },
+                onValueChange = {},
+                readOnly = true,
                 placeholder = {
                     Text("DD/MM/YYYY")
                 },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
+                trailingIcon = {
+                    TextButton(
+                        onClick = {
+                            showDatePicker = true
+                        }
+                    ) {
+                        Text("📅", color = Lime)
+                    }
+                },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = White,
                     unfocusedTextColor = White,
@@ -1053,28 +1099,63 @@ fun GroundBookingScreen(
 
             Button(
                 onClick = {
-                    if (bookingDate.isBlank()) {
-                        message = "Please enter a booking date."
-                    } else {
-                        val alreadyBooked = bookings.any {
-                            it.groundName == selectedGround &&
-                                    it.date == bookingDate &&
-                                    it.timeSlot == selectedTime &&
-                                    (it.status == "Approved" || it.status == "Pending")
+                    val dateFormat = SimpleDateFormat(
+                        "dd/MM/yyyy",
+                        Locale.getDefault()
+                    ).apply {
+                        isLenient = false
+                    }
+
+                    val enteredDate = bookingDate.trim()
+
+                    val parsedDate = runCatching {
+                        dateFormat.parse(enteredDate)
+                    }.getOrNull()
+
+                    val isValidDate =
+                        parsedDate != null &&
+                                dateFormat.format(parsedDate) == enteredDate
+
+                    val today = dateFormat.parse(
+                        dateFormat.format(Date())
+                    ) ?: Date()
+
+                    when {
+                        enteredDate.isBlank() -> {
+                            message = "Please enter a booking date."
                         }
 
-                        if (alreadyBooked) {
-                            message =
-                                "This ground is already booked for that slot."
-                        } else {
-                            onBook(
-                                selectedGround,
-                                selectedSport,
-                                bookingDate,
-                                selectedTime
-                            )
+                        !isValidDate -> {
+                            message = "Enter a valid date in DD/MM/YYYY format."
+                        }
 
-                            message = "Request submitted! Waiting for staff approval. 🏟️"
+                        parsedDate!!.before(today) -> {
+                            message = "You cannot book a date in the past."
+                        }
+
+                        else -> {
+                            val alreadyBooked = bookings.any {
+                                it.groundName == selectedGround &&
+                                        it.date == enteredDate &&
+                                        it.timeSlot == selectedTime &&
+                                        (it.status == "Approved" ||
+                                                it.status == "Pending")
+                            }
+
+                            if (alreadyBooked) {
+                                message =
+                                    "This ground is already booked for that slot."
+                            } else {
+                                onBook(
+                                    selectedGround,
+                                    selectedSport,
+                                    enteredDate,
+                                    selectedTime
+                                )
+
+                                message =
+                                    "Request submitted! Waiting for staff approval. 🏟️"
+                            }
                         }
                     }
                 },
@@ -1172,6 +1253,46 @@ fun GroundBookingScreen(
                         }
                     }
                 }
+            }
+        }
+        if (showDatePicker) {
+            DatePickerDialog(
+                onDismissRequest = {
+                    showDatePicker = false
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            datePickerState.selectedDateMillis?.let {
+                                val formatter = SimpleDateFormat(
+                                    "dd/MM/yyyy",
+                                    Locale.getDefault()
+                                ).apply {
+                                    timeZone = TimeZone.getTimeZone("UTC")
+                                }
+
+                                bookingDate = formatter.format(Date(it))
+                            }
+
+                            showDatePicker = false
+                        }
+                    ) {
+                        Text("Confirm", color = Lime)
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            showDatePicker = false
+                        }
+                    ) {
+                        Text("Cancel", color = White)
+                    }
+                }
+            ) {
+                DatePicker(
+                    state = datePickerState
+                )
             }
         }
     }

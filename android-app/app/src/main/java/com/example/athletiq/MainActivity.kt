@@ -28,7 +28,9 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.SelectableDates
 import java.util.Calendar
 import java.util.TimeZone
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+
 
 private val Navy = Color(0xFF0B1120)
 private val CardNavy = Color(0xFF151D2D)
@@ -929,7 +931,9 @@ fun GroundBookingScreen(
     var showDatePicker by remember {
         mutableStateOf(false)
     }
-
+    var selectedFilter by remember {
+        mutableStateOf("All")
+    }
     val datePickerState = rememberDatePickerState(
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(
@@ -1182,7 +1186,7 @@ fun GroundBookingScreen(
             }
         }
 
-        // Existing bookings
+        // My Bookings
         Text(
             text = "My Bookings",
             color = White,
@@ -1190,13 +1194,52 @@ fun GroundBookingScreen(
             fontWeight = FontWeight.Bold
         )
 
-        if (bookings.isEmpty()) {
+        val filters = listOf(
+            "All",
+            "Pending",
+            "Approved",
+            "Rejected"
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            filters.forEach { filter ->
+                FilterChip(
+                    selected = selectedFilter == filter,
+                    onClick = {
+                        selectedFilter = filter
+                    },
+                    label = {
+                        Text(filter)
+                    },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = Lime,
+                        selectedLabelColor = Navy,
+                        labelColor = White
+                    )
+                )
+            }
+        }
+
+        val filteredBookings = bookings
+            .filter {
+                selectedFilter == "All" ||
+                        it.status == selectedFilter
+            }
+            .reversed()
+
+        if (filteredBookings.isEmpty()) {
             Text(
-                text = "No ground bookings yet.",
+                text = when (selectedFilter) {
+                    "All" -> "No ground bookings yet."
+                    else -> "No $selectedFilter bookings."
+                },
                 color = Muted
             )
         } else {
-            bookings.reversed().forEach { booking ->
+            filteredBookings.forEach { booking ->
 
                 Column(
                     modifier = Modifier
@@ -1207,9 +1250,8 @@ fun GroundBookingScreen(
                         )
                         .padding(16.dp),
                     verticalArrangement =
-                        Arrangement.spacedBy(7.dp)
+                        Arrangement.spacedBy(8.dp)
                 ) {
-
                     Text(
                         text = booking.groundName,
                         color = White,
@@ -1234,9 +1276,12 @@ fun GroundBookingScreen(
 
                     Text(
                         text = "Status: ${booking.status}",
-                        color = if (
-                            booking.status == "Approved"
-                        ) Lime else Muted
+                        color = when (booking.status) {
+                            "Approved" -> Lime
+                            "Rejected" -> Color(0xFFFF6B6B)
+                            else -> Color(0xFFFFC857)
+                        },
+                        fontWeight = FontWeight.SemiBold
                     )
 
                     if (booking.status == "Approved") {

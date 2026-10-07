@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AthletIQ | Ground Booking</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .page-container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 45px 0;
+        }
+
+        .page-header {
+            margin-bottom: 35px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+        }
+
+        .page-header p {
+            color: #858c95;
+            max-width: 650px;
+        }
+
+        .booking-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .booking-card {
+            background: #111419;
+            border: 1px solid #292d32;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .booking-card h2 {
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        .booking-card label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cfd3d7;
+            font-size: 13px;
+        }
+
+        .booking-card input,
+        .booking-card select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 9px;
+            border: 1px solid #292d32;
+            background: #181c21;
+            color: white;
+        }
+
+        .booking-card button {
+            width: 100%;
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .slot {
+            background: #20252b;
+            color: white;
+        }
+
+        .slot.booked {
+            background: #371e21;
+            color: #ff8b8b;
+            cursor: not-allowed;
+        }
+
+        .slot.selected {
+            background: #65e572;
+            color: #061007;
+        }
+
+        .booking-message {
+            margin-top: 18px;
+            color: #65e572;
+            font-size: 13px;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar a {
+            color: #9da4ad;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+        }
+
+        .navbar a:hover {
+            color: #65e572;
+            background: #181c21;
+        }
+
+        @media(max-width: 850px) {
+
+            .booking-layout {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        AthletIQ
+    </div>
+
+    <div class="navbar">
+
+        <a href="index.html">
+            Dashboard
+        </a>
+
+        <a href="equipment.html">
+            Equipment
+        </a>
+
+        <a href="ground-booking.html">
+            Ground Booking
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<div class="page-container">
+
+
+    <div class="page-header">
+
+        <div class="small-title">
+            SPORTS FACILITY MANAGEMENT
+        </div>
+
+        <h1>
+            Ground <span>Booking</span>
+        </h1>
+
+        <p>
+            Request a sports ground or court for training,
+            practice and athletic activities.
+        </p>
+
+    </div>
+
+
+    <div class="booking-layout">
+
+
+        <!-- BOOKING FORM -->
+
+        <div class="booking-card">
+
+            <h2>
+                Request a Ground
+            </h2>
+
+
+            <label>
+                Ground / Facility
+            </label>
+
+            <select id="ground">
+
+                <option>
+                    Main Sports Ground
+                </option>
+
+                <option>
+                    Indoor Court
+                </option>
+
+            </select>
+
+
+            <label>
+                Sport
+            </label>
+
+            <select id="sport">
+
+                <option>
+                    Football
+                </option>
+
+                <option>
+                    Basketball
+                </option>
+
+                <option>
+                    Volleyball
+                </option>
+
+                <option>
+                    Badminton
+                </option>
+
+            </select>
+
+
+            <label>
+                Booking Date
+            </label>
+
+            <input
+                type="date"
+                id="bookingDate"
+            >
+
+
+            <label>
+                Select Time Slot
+            </label>
+
+            <div class="slot-grid">
+
+                <button
+                    class="slot"
+                    onclick="selectSlot(this, '08:00 AM - 09:00 AM')"
+                >
+                    08:00 AM
+                </button>
+
+                <button
+                    class="slot"
+                    onclick="selectSlot(this, '09:00 AM - 10:00 AM')"
+                >
+                    09:00 AM
+                </button>
+
+                <button
+                    class="slot booked"
+                    disabled
+                >
+                    10:00 AM
+                </button>
+
+                <button
+                    class="slot"
+                    onclick="selectSlot(this, '11:00 AM - 12:00 PM')"
+                >
+                    11:00 AM
+                </button>
+
+                <button
+                    class="slot"
+                    onclick="selectSlot(this, '04:00 PM - 05:00 PM')"
+                >
+                    04:00 PM
+                </button>
+
+                <button
+                    class="slot"
+                    onclick="selectSlot(this, '05:00 PM - 06:00 PM')"
+                >
+                    05:00 PM
+                </button>
+
+            </div>
+
+
+            <button
+                style="margin-top:20px"
+                onclick="submitBooking()"
+            >
+                Submit Booking Request
+            </button>
+
+
+            <div
+                id="bookingMessage"
+                class="booking-message"
+            ></div>
+
+        </div>
+
+
+        <!-- EXISTING BOOKINGS -->
+
+        <div class="booking-card">
+
+            <h2>
+                Current Bookings
+            </h2>
+
+
+            <div class="ground-card">
+
+                <div class="equipment-icon">
+                    🏟️
+                </div>
+
+                <h3>
+                    Main Sports Ground
+                </h3>
+
+                <p>
+                    Football
+                </p>
+
+                <p>
+                    26/09/2026 · 08:00 AM - 09:00 AM
+                </p>
+
+                <span class="available">
+                    APPROVED
+                </span>
+
+            </div>
+
+
+            <br>
+
+
+            <div class="ground-card">
+
+                <div class="equipment-icon">
+                    🏀
+                </div>
+
+                <h3>
+                    Indoor Court
+                </h3>
+
+                <p>
+                    Basketball
+                </p>
+
+                <p>
+                    27/09/2026 · 05:00 PM - 06:00 PM
+                </p>
+
+                <span style="color:#f5c542">
+                    PENDING APPROVAL
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+let selectedSlot = null;
+
+
+function selectSlot(button, slot) {
+
+    document
+        .querySelectorAll(".slot:not(.booked)")
+        .forEach(btn => {
+            btn.classList.remove("selected");
+        });
+
+    button.classList.add("selected");
+
+    selectedSlot = slot;
+
+}
+
+
+function submitBooking() {
+
+    const ground =
+        document.getElementById("ground").value;
+
+    const sport =
+        document.getElementById("sport").value;
+
+    const date =
+        document.getElementById("bookingDate").value;
+
+    const message =
+        document.getElementById("bookingMessage");
+
+
+    if (!date) {
+
+        message.textContent =
+            "Please select a booking date.";
+
+        return;
+
+    }
+
+
+    if (!selectedSlot) {
+
+        message.textContent =
+            "Please select a time slot.";
+
+        return;
+
+    }
+
+
+    message.textContent =
+        "Booking request submitted ✓ " +
+        "Waiting for staff approval.";
+
+}
+
+
+</script>
+
+</body>
+
+</html>

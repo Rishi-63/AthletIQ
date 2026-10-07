@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AthletIQ | Equipment</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .page-container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 45px 0;
+        }
+
+        .page-header {
+            margin-bottom: 35px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+        }
+
+        .page-header p {
+            color: #858c95;
+            max-width: 650px;
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .equipment-card {
+            background: #111419;
+            border: 1px solid #292d32;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .equipment-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .equipment-card h3 {
+            margin: 0 0 8px;
+        }
+
+        .equipment-card p {
+            color: #858c95;
+            font-size: 13px;
+        }
+
+        .availability {
+            margin: 18px 0;
+            color: #65e572;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .equipment-card button {
+            width: 100%;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #9da4ad;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+        }
+
+        .navbar a:hover {
+            color: #65e572;
+            background: #181c21;
+        }
+
+        @media(max-width: 850px) {
+            .equipment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        AthletIQ
+    </div>
+
+    <div class="navbar">
+
+        <a href="index.html">Dashboard</a>
+
+        <a href="equipment.html">
+            Equipment
+        </a>
+
+        <a href="ground-booking.html">
+            Ground Booking
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div class="small-title">
+            SPORTS MANAGEMENT
+        </div>
+
+        <h1>
+            Equipment <span>Management</span>
+        </h1>
+
+        <p>
+            View available sports equipment and submit requests
+            for equipment required during training or assessment.
+        </p>
+
+    </div>
+
+
+    <div class="equipment-grid">
+
+
+        <div class="equipment-card">
+
+            <div class="equipment-icon">
+                🏀
+            </div>
+
+            <h3>
+                Basketball
+            </h3>
+
+            <p>
+                Standard basketball available for practice
+                and sports assessment.
+            </p>
+
+            <div class="availability">
+                ● Available
+            </div>
+
+            <button onclick="requestEquipment('Basketball')">
+                Request Equipment
+            </button>
+
+        </div>
+
+
+        <div class="equipment-card">
+
+            <div class="equipment-icon">
+                🏸
+            </div>
+
+            <h3>
+                Badminton Racket
+            </h3>
+
+            <p>
+                Badminton racket available for training
+                sessions.
+            </p>
+
+            <div class="availability">
+                ● Available
+            </div>
+
+            <button onclick="requestEquipment('Badminton Racket')">
+                Request Equipment
+            </button>
+
+        </div>
+
+
+        <div class="equipment-card">
+
+            <div class="equipment-icon">
+                ⚽
+            </div>
+
+            <h3>
+                Football
+            </h3>
+
+            <p>
+                Football available for ground practice
+                and team training.
+            </p>
+
+            <div class="availability">
+                ● Available
+            </div>
+
+            <button onclick="requestEquipment('Football')">
+                Request Equipment
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+function requestEquipment(item) {
+
+    alert(
+        item +
+        " request submitted successfully!\n\n" +
+        "Status: Waiting for staff approval."
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

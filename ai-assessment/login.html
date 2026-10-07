@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AthletIQ | Login</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: #111419;
+            border: 1px solid #292d32;
+            border-radius: 18px;
+            padding: 35px;
+        }
+
+        .login-logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .login-logo span {
+            color: #65e572;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #858c95;
+            margin-bottom: 30px;
+        }
+
+        .login-card label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cfd3d7;
+            font-size: 13px;
+        }
+
+        .login-card input,
+        .login-card select {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border-radius: 9px;
+            border: 1px solid #292d32;
+            background: #181c21;
+            color: white;
+            outline: none;
+        }
+
+        .login-card input:focus,
+        .login-card select:focus {
+            border-color: #65e572;
+        }
+
+        .login-button {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .login-message {
+            text-align: center;
+            margin-top: 18px;
+            color: #65e572;
+            font-size: 13px;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #858c95;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .back-home:hover {
+            color: #65e572;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            Athlet<span>IQ</span>
+        </div>
+
+        <div class="login-subtitle">
+            Smart Sports Assessment & Management
+        </div>
+
+        <form id="loginForm">
+
+            <label>Email / Student ID</label>
+
+            <input
+                type="text"
+                id="loginId"
+                placeholder="Enter your ID"
+                required
+            >
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                required
+            >
+
+            <label>Login As</label>
+
+            <select id="role">
+                <option value="student">Student / Athlete</option>
+                <option value="staff">Staff / Coach</option>
+            </select>
+
+            <button type="submit" class="login-button">
+                Login
+            </button>
+
+        </form>
+
+        <div id="loginMessage" class="login-message"></div>
+
+        <a href="index.html" class="back-home">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const loginId = document.getElementById("loginId").value;
+    const role = document.getElementById("role").value;
+
+    if (loginId.trim() === "") {
+        return;
+    }
+
+    localStorage.setItem("athletiqUser", loginId);
+    localStorage.setItem("athletiqRole", role);
+
+    document.getElementById("loginMessage").textContent =
+        "Login successful ✓ Redirecting...";
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 800);
+
+});
+
+</script>
+
+</body>
+</html>

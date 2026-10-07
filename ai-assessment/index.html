@@ -1,391 +1,830 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>AthletIQ | Smart Sports Assessment</title>
 
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
     <!-- MediaPipe -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
 
-    <link rel="stylesheet" href="style.css">
 </head>
+
 
 <body>
 
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
 <header>
-    <div class="logo">AthletIQ</div>
-    <div class="tagline">Assess. Manage. Schedule.</div>
+
+    <div class="logo">
+        AthletIQ
+    </div>
+
+    <div class="tagline">
+        Smart Sports Assessment & Management
+    </div>
+
+    <nav
+        style="
+            display:flex;
+            gap:10px;
+            align-items:center;
+        "
+    >
+
+        <a
+            href="index.html"
+            style="
+                color:#65e572;
+                text-decoration:none;
+                font-size:13px;
+                padding:8px 12px;
+            "
+        >
+            Dashboard
+        </a>
+
+        <a
+            href="equipment.html"
+            style="
+                color:#9da4ad;
+                text-decoration:none;
+                font-size:13px;
+                padding:8px 12px;
+            "
+        >
+            Equipment
+        </a>
+
+        <a
+            href="ground-booking.html"
+            style="
+                color:#9da4ad;
+                text-decoration:none;
+                font-size:13px;
+                padding:8px 12px;
+            "
+        >
+            Ground Booking
+        </a>
+
+        <a
+            href="login.html"
+            style="
+                color:#9da4ad;
+                text-decoration:none;
+                font-size:13px;
+                padding:8px 12px;
+            "
+        >
+            Login
+        </a>
+
+    </nav>
+
 </header>
+
+
+
+<!-- ======================================================
+     MAIN
+====================================================== -->
 
 <main>
 
-    <!-- DASHBOARD -->
-    <section class="dashboard">
+
+<!-- ======================================================
+     DASHBOARD INTRO
+====================================================== -->
+
+<section class="dashboard">
+
+    <div>
+
+        <div class="small-title">
+            AI-POWERED SPORTS PLATFORM
+        </div>
+
+        <h1>
+            Smart Sports<br>
+            <span>Assessment.</span>
+        </h1>
+
+        <p class="description">
+
+            Computer-vision assisted sports assessment
+            combined with digital equipment management
+            and ground booking.
+
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <strong>
+                04
+            </strong>
+
+            <p>
+                Assessments
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <strong>
+                AI
+            </strong>
+
+            <p>
+                Pose Detection
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <strong>
+                02
+            </strong>
+
+            <p>
+                Facilities
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     AI SPORTS ASSESSMENT
+====================================================== -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <h2>
+            AI Sports Assessment
+        </h2>
+
+        <div class="live-badge">
+            ● LIVE AI
+        </div>
+
+    </div>
+
+
+    <div class="assessment-layout">
+
+
+        <!-- CAMERA -->
+
+        <div class="camera-card">
+
+            <div class="camera-header">
+
+                <span>
+                    Live Camera
+                </span>
+
+                <span id="connectionStatus">
+                    INITIALIZING
+                </span>
+
+            </div>
+
+
+            <div class="camera-box">
+
+                <video
+                    id="video"
+                    autoplay
+                    playsinline
+                    muted
+                ></video>
+
+                <canvas
+                    id="canvas"
+                ></canvas>
+
+
+                <div
+                    class="camera-message"
+                    id="cameraMessage"
+                >
+                    Starting camera...
+                </div>
+
+            </div>
+
+
+            <div class="camera-controls">
+
+                <button id="startButton">
+                    Start Assessment
+                </button>
+
+                <button
+                    id="resetButton"
+                    class="secondary"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RESULTS -->
+
+        <div class="result-card">
+
+            <div class="small-title">
+                CURRENT ASSESSMENT
+            </div>
+
+
+            <h3>
+                Push-Ups
+            </h3>
+
+
+            <div class="rep-display">
+
+                <span id="repCount">
+                    0
+                </span>
+
+                <small>
+                    REPETITIONS
+                </small>
+
+            </div>
+
+
+            <div class="position">
+
+                POSITION:
+
+                <strong id="position">
+                    READY
+                </strong>
+
+            </div>
+
+
+            <div class="feedback-box">
+
+                <p>
+                    AI FEEDBACK
+                </p>
+
+                <div id="feedback">
+                    Position yourself sideways to the camera.
+                </div>
+
+            </div>
+
+
+            <div class="metrics">
+
+                <div>
+
+                    <span>
+                        Detection
+                    </span>
+
+                    <strong id="detection">
+                        Not detected
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Assessment
+                    </span>
+
+                    <strong id="assessmentStatus">
+                        Ready
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     ASSESSMENT SUITE
+====================================================== -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <h2>
+            Assessment Suite
+        </h2>
+
+    </div>
+
+
+    <div class="test-grid">
+
+
+        <!-- PUSH UPS -->
+
+        <div class="test-card active">
+
+            <div class="icon">
+                💪
+            </div>
+
+            <h3>
+                Push-Ups
+            </h3>
+
+            <p>
+                AI pose-based repetition counting
+                and movement analysis.
+            </p>
+
+            <span>
+                LIVE
+            </span>
+
+        </div>
+
+
+        <!-- VERTICAL JUMP -->
+
+        <div class="test-card">
+
+            <div class="icon">
+                🦘
+            </div>
+
+            <h3>
+                Vertical Jump
+            </h3>
+
+            <p>
+                Jump height and explosive
+                power assessment.
+            </p>
+
+            <span>
+                MODULE
+            </span>
+
+        </div>
+
+
+        <!-- 30M SPRINT -->
+
+        <div class="test-card">
+
+            <div class="icon">
+                🏃
+            </div>
+
+            <h3>
+                30m Sprint
+            </h3>
+
+            <p>
+                Sprint time and movement
+                performance assessment.
+            </p>
+
+            <span>
+                MODULE
+            </span>
+
+        </div>
+
+
+        <!-- BROAD JUMP -->
+
+        <div class="test-card">
+
+            <div class="icon">
+                ↔️
+            </div>
+
+            <h3>
+                Broad Jump
+            </h3>
+
+            <p>
+                Horizontal jumping distance
+                assessment.
+            </p>
+
+            <span>
+                MODULE
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     EQUIPMENT MANAGEMENT
+====================================================== -->
+
+<section class="section">
+
+    <div class="section-heading">
 
         <div>
-            <p class="small-title">AI SPORTS PLATFORM</p>
-            <h1>Smart Sports<br><span>Assessment & Management</span></h1>
 
-            <p class="description">
-                Computer-vision assisted sports assessment combined with
-                digital equipment management and ground booking.
+            <div class="small-title">
+                SPORTS MANAGEMENT
+            </div>
+
+            <h2>
+                Equipment Management
+            </h2>
+
+        </div>
+
+        <a
+            href="equipment.html"
+            style="
+                color:#65e572;
+                text-decoration:none;
+                border:1px solid #275b2d;
+                padding:9px 15px;
+                border-radius:9px;
+                font-size:12px;
+                font-weight:bold;
+            "
+        >
+            VIEW ALL →
+        </a>
+
+    </div>
+
+
+    <div class="management-grid">
+
+
+        <!-- BASKETBALL -->
+
+        <div class="management-card">
+
+            <div class="management-top">
+
+                <div class="equipment-icon">
+                    🏀
+                </div>
+
+                <div class="available">
+                    ● AVAILABLE
+                </div>
+
+            </div>
+
+            <h3>
+                Basketball
+            </h3>
+
+            <p>
+                Standard basketball available
+                for practice and assessment.
             </p>
-        </div>
 
-        <div class="stats">
-
-            <div class="stat-card">
-                <strong>01</strong>
-                <p>AI Assessment</p>
-            </div>
-
-            <div class="stat-card">
-                <strong>02</strong>
-                <p>Equipment</p>
-            </div>
-
-            <div class="stat-card">
-                <strong>03</strong>
-                <p>Ground Booking</p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- AI ASSESSMENT -->
-    <section class="section">
-
-        <div class="section-heading">
-            <div>
-                <p class="small-title">COMPUTER VISION</p>
-                <h2>AI Sports Assessment</h2>
-            </div>
-
-            <div class="live-badge">
-                ● LIVE AI
-            </div>
-        </div>
-
-
-        <div class="assessment-layout">
-
-            <!-- CAMERA -->
-            <div class="camera-card">
-
-                <div class="camera-header">
-                    <span>Push-Up Assessment</span>
-                    <span id="connectionStatus">READY</span>
-                </div>
-
-                <div class="camera-box">
-
-                    <video id="video" autoplay playsinline></video>
-
-                    <canvas id="canvas"></canvas>
-
-                    <div class="camera-message" id="cameraMessage">
-                        Camera starting...
-                    </div>
-
-                </div>
-
-                <div class="camera-controls">
-
-                    <button id="startButton">
-                        Start Assessment
-                    </button>
-
-                    <button id="resetButton" class="secondary">
-                        Reset
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- RESULTS -->
-            <div class="result-card">
-
-                <p class="small-title">LIVE ASSESSMENT</p>
-
-                <div class="rep-display">
-                    <span id="repCount">0</span>
-                    <small>REPS</small>
-                </div>
-
-                <div class="position">
-                    Position:
-                    <strong id="position">READY</strong>
-                </div>
-
-
-                <div class="feedback-box">
-
-                    <p>FORM FEEDBACK</p>
-
-                    <div id="feedback">
-                        Position yourself sideways to the camera.
-                    </div>
-
-                </div>
-
-
-                <div class="metrics">
-
-                    <div>
-                        <span>Exercise</span>
-                        <strong>Push-Ups</strong>
-                    </div>
-
-                    <div>
-                        <span>Detection</span>
-                        <strong id="detection">Waiting</strong>
-                    </div>
-
-                    <div>
-                        <span>Assessment</span>
-                        <strong id="assessmentStatus">Ready</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- OTHER AI TESTS -->
-    <section class="section">
-
-        <div class="section-heading">
-
-            <div>
-                <p class="small-title">ASSESSMENT SUITE</p>
-                <h2>Sports Tests</h2>
-            </div>
+            <a
+                href="equipment.html"
+                style="text-decoration:none;"
+            >
+                <button>
+                    Request Equipment
+                </button>
+            </a>
 
         </div>
 
 
-        <div class="test-grid">
 
-            <div class="test-card active">
-                <div class="icon">💪</div>
-                <h3>Push-Ups</h3>
-                <p>AI pose-based repetition counting</p>
-                <span>LIVE</span>
-            </div>
+        <!-- BADMINTON -->
 
-            <div class="test-card">
-                <div class="icon">🧍</div>
-                <h3>Vertical Jump</h3>
-                <p>Jump height assessment</p>
-                <span>MODULE</span>
-            </div>
+        <div class="management-card">
 
-            <div class="test-card">
-                <div class="icon">🏃</div>
-                <h3>30m Sprint</h3>
-                <p>Time and movement assessment</p>
-                <span>MODULE</span>
-            </div>
+            <div class="management-top">
 
-            <div class="test-card">
-                <div class="icon">↔️</div>
-                <h3>Broad Jump</h3>
-                <p>Distance assessment</p>
-                <span>MODULE</span>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- EQUIPMENT -->
-    <section class="section">
-
-        <div class="section-heading">
-
-            <div>
-                <p class="small-title">SPORTS OPERATIONS</p>
-                <h2>Equipment Management</h2>
-            </div>
-
-        </div>
-
-
-        <div class="management-grid">
-
-            <div class="management-card">
-
-                <div class="management-top">
-                    <span class="equipment-icon">🏀</span>
-                    <span class="available">AVAILABLE</span>
+                <div class="equipment-icon">
+                    🏸
                 </div>
 
-                <h3>Basketballs</h3>
+                <div class="available">
+                    ● AVAILABLE
+                </div>
 
-                <p>
-                    Available: <strong>8</strong> / 10
-                </p>
+            </div>
 
-                <button onclick="issueEquipment('Basketballs')">
-                    Issue Equipment
+            <h3>
+                Badminton Racket
+            </h3>
+
+            <p>
+                Racket available for training
+                and practice sessions.
+            </p>
+
+            <a
+                href="equipment.html"
+                style="text-decoration:none;"
+            >
+                <button>
+                    Request Equipment
+                </button>
+            </a>
+
+        </div>
+
+
+
+        <!-- FOOTBALL -->
+
+        <div class="management-card">
+
+            <div class="management-top">
+
+                <div class="equipment-icon">
+                    ⚽
+                </div>
+
+                <div class="available">
+                    ● AVAILABLE
+                </div>
+
+            </div>
+
+            <h3>
+                Football
+            </h3>
+
+            <p>
+                Football available for ground
+                practice and team training.
+            </p>
+
+            <a
+                href="equipment.html"
+                style="text-decoration:none;"
+            >
+                <button>
+                    Request Equipment
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     GROUND BOOKING
+====================================================== -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <div class="small-title">
+                SPORTS FACILITY MANAGEMENT
+            </div>
+
+            <h2>
+                Ground Booking
+            </h2>
+
+        </div>
+
+        <a
+            href="ground-booking.html"
+            style="
+                color:#65e572;
+                text-decoration:none;
+                border:1px solid #275b2d;
+                padding:9px 15px;
+                border-radius:9px;
+                font-size:12px;
+                font-weight:bold;
+            "
+        >
+            VIEW BOOKING →
+        </a>
+
+    </div>
+
+
+    <div class="booking-grid">
+
+
+        <!-- MAIN GROUND -->
+
+        <div class="ground-card">
+
+            <div class="management-top">
+
+                <div class="ground-icon">
+                    🏟️
+                </div>
+
+                <div class="available">
+                    AVAILABLE
+                </div>
+
+            </div>
+
+            <h3>
+                Main Sports Ground
+            </h3>
+
+            <p>
+                Football and outdoor sports facility.
+            </p>
+
+
+            <div class="slots">
+
+                <button
+                    onclick="window.location.href='ground-booking.html'"
+                >
+                    08:00 AM
                 </button>
 
-            </div>
-
-
-            <div class="management-card">
-
-                <div class="management-top">
-                    <span class="equipment-icon">🏸</span>
-                    <span class="available">AVAILABLE</span>
-                </div>
-
-                <h3>Badminton Rackets</h3>
-
-                <p>
-                    Available: <strong>12</strong> / 15
-                </p>
-
-                <button onclick="issueEquipment('Badminton Rackets')">
-                    Issue Equipment
+                <button
+                    onclick="window.location.href='ground-booking.html'"
+                >
+                    09:00 AM
                 </button>
 
-            </div>
+                <button
+                    class="booked"
+                    disabled
+                >
+                    10:00 AM
+                </button>
 
-
-            <div class="management-card">
-
-                <div class="management-top">
-                    <span class="equipment-icon">⚽</span>
-                    <span class="available">AVAILABLE</span>
-                </div>
-
-                <h3>Football</h3>
-
-                <p>
-                    Available: <strong>5</strong> / 7
-                </p>
-
-                <button onclick="issueEquipment('Football')">
-                    Issue Equipment
+                <button
+                    onclick="window.location.href='ground-booking.html'"
+                >
+                    11:00 AM
                 </button>
 
             </div>
 
         </div>
 
-    </section>
 
 
-    <!-- GROUND BOOKING -->
-    <section class="section">
+        <!-- INDOOR COURT -->
 
-        <div class="section-heading">
+        <div class="ground-card">
 
-            <div>
-                <p class="small-title">SPORTS FACILITIES</p>
-                <h2>Ground Booking</h2>
-            </div>
+            <div class="management-top">
 
-        </div>
+                <div class="ground-icon">
+                    🏀
+                </div>
 
-
-        <div class="booking-grid">
-
-            <div class="ground-card">
-
-                <div class="ground-icon">🏟️</div>
-
-                <h3>Main Sports Ground</h3>
-
-                <p>Today's availability</p>
-
-                <div class="slots">
-
-                    <button onclick="bookSlot(this)">
-                        4:00 PM
-                    </button>
-
-                    <button onclick="bookSlot(this)">
-                        5:00 PM
-                    </button>
-
-                    <button class="booked">
-                        6:00 PM
-                    </button>
-
-                    <button onclick="bookSlot(this)">
-                        7:00 PM
-                    </button>
-
+                <div class="available">
+                    AVAILABLE
                 </div>
 
             </div>
 
+            <h3>
+                Indoor Court
+            </h3>
 
-            <div class="ground-card">
+            <p>
+                Basketball and indoor sports facility.
+            </p>
 
-                <div class="ground-icon">🏸</div>
 
-                <h3>Indoor Court</h3>
+            <div class="slots">
 
-                <p>Today's availability</p>
+                <button
+                    onclick="window.location.href='ground-booking.html'"
+                >
+                    04:00 PM
+                </button>
 
-                <div class="slots">
+                <button
+                    onclick="window.location.href='ground-booking.html'"
+                >
+                    05:00 PM
+                </button>
 
-                    <button onclick="bookSlot(this)">
-                        4:00 PM
-                    </button>
+                <button
+                    class="booked"
+                    disabled
+                >
+                    06:00 PM
+                </button>
 
-                    <button class="booked">
-                        5:00 PM
-                    </button>
-
-                    <button onclick="bookSlot(this)">
-                        6:00 PM
-                    </button>
-
-                    <button onclick="bookSlot(this)">
-                        7:00 PM
-                    </button>
-
-                </div>
+                <button
+                    onclick="window.location.href='ground-booking.html'"
+                >
+                    07:00 PM
+                </button>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
+
 
 
 </main>
 
 
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
 <footer>
 
-    <strong>AthletIQ</strong>
+    <div>
+        AthletIQ
+    </div>
 
-    <span>
+    <div>
         Smart Sports Assessment & Management Platform
-    </span>
+    </div>
 
 </footer>
 
 
+
+<!-- ======================================================
+     EXISTING AI SCRIPT
+====================================================== -->
+
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
